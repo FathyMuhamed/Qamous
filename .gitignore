@@ -29,6 +29,9 @@ backend
 # local env
 .env
 .env.local.*
+src/firebaseConfig.js
+src/firestore.rules
+src/firestore.indexes.json
 
 # package json
 package-lock.json
