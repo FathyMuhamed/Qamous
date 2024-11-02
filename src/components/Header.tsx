@@ -15,13 +15,9 @@ import Joyride, { CallBackProps, STATUS, Step } from 'react-joyride';
 const Header: React.FC = () => {
     const { i18n, t } = useTranslation();
     const root = document.documentElement;
-
-    const [currentLang, setCurrentLang] =
-        useState(getFunctionalCookie('language') || "en");
-    const [languageButtonStyle, setLanguageButtonStyle] =
-        useState({ opacity: 1 });
-    const [isDarkMode, setDarkMode] =
-      React.useState<boolean>(getFunctionalCookie('darkMode') === 'true' ?? true);
+    const [currentLang, setCurrentLang] = useState(getFunctionalCookie('language') || "en");
+    const [languageButtonStyle, setLanguageButtonStyle] = useState({ opacity: 1 });
+    const [isDarkMode, setDarkMode] = useState<boolean>(getFunctionalCookie('darkMode') === 'true' ?? true);
     const [change, setChange] = useState(false);
 
     const handleCountrySwitch = () => {
@@ -41,17 +37,19 @@ const Header: React.FC = () => {
             return lang;
         });
         setLanguageButtonStyle((prevStyle) => ({ ...prevStyle, opacity: 1 }));
-        if (change)
-            handleBurgerClick();
+        if (change) handleBurgerClick();
     };
+
     const handleHover = () => {
         // Update opacity
         setLanguageButtonStyle((prevStyle) => ({ ...prevStyle, opacity: 0.5 }));
     };
+
     const handleNoHover = () => {
         // Update opacity
         setLanguageButtonStyle((prevStyle) => ({ ...prevStyle, opacity: 1 }));
     };
+
     const setTheme = (isDarkMode: boolean): void => {
         root.style.setProperty('--primary-color', isDarkMode ? styles.primaryColorDark : styles.primaryColorLight);
         root.style.setProperty('--secondary-color', isDarkMode ? styles.secondaryColorDark : styles.secondaryColorLight);
@@ -66,12 +64,13 @@ const Header: React.FC = () => {
         root.style.setProperty('--header-border-color', isDarkMode ? styles.headerBorderColorDark : styles.headerBorderColorLight);
         root.style.setProperty('--icon-background-color', isDarkMode ? styles.iconBackgroundColorDark : styles.iconBackgroundColorLight);
     };
+
     const toggleDarkMode = (checked: boolean) => {
         setDarkMode(checked);
         setFunctionalCookie('darkMode', checked.toString());
-        if (change)
-            setTimeout(handleBurgerClick, 150);
+        if (change) setTimeout(handleBurgerClick, 150);
     };
+
     setTheme(isDarkMode);
 
     const overlayNav = useRef<HTMLDivElement>(null);
@@ -107,7 +106,11 @@ const Header: React.FC = () => {
             setRunTour(true);
         }
     }, []);
-    
+
+    useEffect(() => {
+        setCurrentLang(i18n.language);
+    }, [i18n.language]);
+
     const isPhone = window.innerWidth <= 1200;
 
     const handleJoyrideCallback = (data: CallBackProps) => {
@@ -258,33 +261,19 @@ const Header: React.FC = () => {
           />
           <div ref={overlayNav} className="nav-overlay">
               <div className="nav-overlay-content">
-                  <NavLink
-                    to="/"
-                    onClick={handleBurgerClick}
-                  >
+                  <NavLink to="/" onClick={handleBurgerClick}>
                       {t('toolbar_items.home')}
                   </NavLink>
-                  <NavLink
-                    to="/advanced-search"
-                    onClick={handleBurgerClick}
-                  >
+                  <NavLink to="/advanced-search" onClick={handleBurgerClick}>
                       {t('toolbar_items.advanced_search')}
                   </NavLink>
-                  <NavLink
-                    to="/feeling-lucky"
-                    onClick={handleBurgerClick}
-                  >
+                  <NavLink to="/feeling-lucky" onClick={handleBurgerClick}>
                       {t('toolbar_items.word_of_the_day')}
                   </NavLink>
-                  <NavLink
-                    to="/blog"
-                    onClick={handleBurgerClick}
-                  >
+                  <NavLink to="/blog" onClick={handleBurgerClick}>
                       {t('toolbar_items.blog')}
                   </NavLink>
-                  <div
-                    className="nav-overlay-content-bottom"
-                  >
+                  <div className="nav-overlay-content-bottom">
                       <DarkModeSwitch
                         className="nav-overlay-content-bottom-mode"
                         checked={isDarkMode}
@@ -299,21 +288,19 @@ const Header: React.FC = () => {
                         onClick={handleCountrySwitch}
                         style={languageButtonStyle}
                       >
-                          {currentLang === 'en' ?
-                            <>
-                                <US title="United States" />
-                            </>
-                            : <>
-                                <EG title="Egypt" />
-                            </>
-                          }
+                          {currentLang === 'en' ? (
+                              <>
+                                  <US title="United States" />
+                              </>
+                          ) : (
+                              <>
+                                  <EG title="Egypt" />
+                              </>
+                          )}
                       </div>
 
                       <div className="nav-overlay-content-bottom-user">
-                          <NavLink
-                            to="/login"
-                            onClick={handleBurgerClick}
-                          >
+                          <NavLink to="/login" onClick={handleBurgerClick}>
                               <i className="fa-solid fa-user"></i>
                               <FontAwesomeIcon icon={faUser} size="sm"/>
                               {/*<img src={userImage} alt={t('common_terms.user')} />*/}
@@ -339,39 +326,38 @@ const Header: React.FC = () => {
 
               <div className="header-right-side">
                   <SearchBar />
-
-                  <div
-                    className="header-right-side-add">
+                  <div className="header-right-side-add">
                       <NavLink to="/add-definition">
                           <FontAwesomeIcon icon={faPlus} size="2x" />
                       </NavLink>
                   </div>
-
                   <div className="header-right-side-divider"></div>
-
-                  <div className="header-right-side-language"
-                       onClick={handleCountrySwitch}
-                       onMouseEnter={handleHover}
-                       onMouseLeave={handleNoHover}
-                       style={languageButtonStyle}>
-                      {currentLang === 'en' ?
-                        <>
-                            <US title="United States" />
-                            <p>EN</p>
-                        </>
-                        : <>
-                            <EG title="Egypt" />
-                            <p>AR</p>
-                        </>
-                      }
+                  <div
+                      className="header-right-side-language"
+                      onClick={handleCountrySwitch}
+                      onMouseEnter={handleHover}
+                      onMouseLeave={handleNoHover}
+                      style={languageButtonStyle}
+                  >
+                      {currentLang === 'en' ? (
+                          <>
+                              <US title="United States" />
+                              <p>EN</p>
+                          </>
+                      ) : (
+                          <>
+                              <EG title="Egypt" />
+                              <p>AR</p>
+                          </>
+                      )}
                   </div>
 
                   <DarkModeSwitch
-                    className="header-right-side-mode"
-                    checked={isDarkMode}
-                    onChange={toggleDarkMode}
-                    moonColor="#bfbfbf"
-                    sunColor="#dd8500"
+                      className="header-right-side-mode"
+                      checked={isDarkMode}
+                      onChange={toggleDarkMode}
+                      moonColor="#bfbfbf"
+                      sunColor="#dd8500"
                   />
 
                   <div className="header-right-side-user">

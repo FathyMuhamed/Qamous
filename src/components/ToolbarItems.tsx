@@ -24,15 +24,6 @@ const ToolbarItems: React.FC<ToolbarItemsProps> = ({ language, isDarkMode }: Too
                         </StyledNavLink>
                     </li>
                     <li>
-                        <StyledNavLink to="/advanced-search"
-                                       language={language}
-                                       isDarkMode={isDarkMode}
-                                       className={'toolbar-items-not-built-yet'}
-                        >
-                            {t('toolbar_items.advanced_search')}
-                        </StyledNavLink>
-                    </li>
-                    <li>
                         <StyledNavLink to="/feeling-lucky"
                                        language={language}
                                        isDarkMode={isDarkMode}
@@ -41,12 +32,20 @@ const ToolbarItems: React.FC<ToolbarItemsProps> = ({ language, isDarkMode }: Too
                         </StyledNavLink>
                     </li>
                     <li>
-                        <StyledNavLink to="/advertise"
+                        <StyledNavLink to="/blog"
                                        language={language}
                                        isDarkMode={isDarkMode}
-                                       className={'toolbar-items-not-built-yet'}
                         >
-                            {t('toolbar_items.advertise')}
+                            {t('toolbar_items.blog')}
+                        </StyledNavLink>
+                    </li>
+                    <li>
+                        <StyledNavLink to="/advanced-search"
+                                       language={language}
+                                       isDarkMode={isDarkMode}
+                                       // className={'toolbar-items-not-built-yet'}
+                        >
+                            {t('toolbar_items.advanced_search')}
                         </StyledNavLink>
                     </li>
                 </ul>

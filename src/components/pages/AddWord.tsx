@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Papa from 'papaparse';
-import i18n from 'i18next';
 import './AddWord.scss';
 import { useTranslation } from 'react-i18next';
 import Snackbar from '../Snackbar';

@@ -5,6 +5,7 @@ import { db } from '../../firebaseConfig';
 import ReactMarkdown from 'react-markdown';
 import './Blog.scss';
 import { useTranslation } from 'react-i18next';
+import { Helmet } from 'react-helmet';
 
 interface Post {
   id: string;
@@ -79,6 +80,11 @@ const Blog = () => {
 
   return (
     <div className="blog">
+      <Helmet>
+        <title>Blog - Qamous</title>
+        <meta name="description" content="Read and post on the Qamous blog. Communicate with other Arabic Speakers. Stay updated with the newest trends and insights." />
+        <meta name="keywords" content="Qamous, blog, posts, trends, insights, technology, updates" />
+      </Helmet>
       <h1>{t('blog.title')}</h1>
       {authLoading ? (
         <div className={'loading-ring'}>

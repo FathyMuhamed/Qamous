@@ -1,6 +1,6 @@
-// General utils for managing cookies in Typescript.
+import { useEffect, useRef, useState } from 'react';;
 
-import { useEffect, useRef, useState } from 'react';
+// General utils for managing cookies in Typescript.
 
 /**
  * This function sets a cookie with a given name and value. This cookie is considered functional and is, then,
@@ -461,7 +461,6 @@ export async function getCountryName(countryCode: string | undefined): Promise<s
  */
 export async function getCountryCode(countryName: string | undefined): Promise<string> {
   let countries: { [key: string]: string } = {};
-  
   try {
     // Fetch and parse the CSV file
     const response = await fetch('/countries.csv');
@@ -470,18 +469,19 @@ export async function getCountryCode(countryName: string | undefined): Promise<s
     }
     const data = await response.text();
     const rows = data.split('\n').slice(1); // Skip the header row if it exists
-    
+
     rows.forEach(row => {
       const [code, name] = row.split(',');
       if (code && name) {
         countries[name.trim()] = code.trim();
       }
     });
-    
+
     if (!countryName) {
       return '';
     }
-    return countries[countryName] || '';
+    const trimmedCountryName = countryName.trim();
+    return countries[trimmedCountryName] || '';
   } catch (error) {
     console.error('Failed to fetch country code:', error);
     return '';

@@ -60,6 +60,7 @@ const UserProfile = () => {
   const [dropdownVisible, setDropdownVisible] = useState<{ [key: number]: boolean }>({});
   const [selectedDefinition, setSelectedDefinition] = useState<{ [key: number]: Definition | null }>({});
   const [currentDefinition, setCurrentDefinition] = useState<Definition | null>(null);
+  const [likesReceived, setLikesReceived] = useState<number>(0);
   const userData = location.state.user;
   const name: string = userData.firstName;
   const userId: number = userData.id;
@@ -77,7 +78,16 @@ const UserProfile = () => {
         setUniqueWords(uniqueWordsData as Word[]);
       });
   
+  const fetchUserData = (userId: number) =>
+    fetch(`${process.env.REACT_APP_API_URL}/users/${userId}`)
+      .then(response => response.json())
+      .then(data => {
+        setLikesReceived(data.likesReceived);
+      });
+  
   const { data, isLoading, isError } = useQuery(['definitions', userId], () => fetchDefinitions(userId));
+  
+  const { data: userLikes, isLoading: isUserLikesLoading, isError: isUserLikesError } = useQuery(['user', userId], () => fetchUserData(userId));
   
   const handlePostLanguageClick = (postId: number) => {
     setCurrentLanguage(prevState => ({
@@ -366,6 +376,7 @@ const UserProfile = () => {
         !
       </h2>
       <h3 className="profile-subtitle">{username}</h3>
+      <p className="profile-points">{t('user_profile.points')}: {likesReceived}</p>
       <div className="buttons buttons-between profile-logout">
         <button onClick={handleLogout} className="buttons-button">
           <FontAwesomeIcon icon={faArrowRightFromBracket} />
